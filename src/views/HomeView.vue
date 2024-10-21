@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import PokeButton from '@/components/PokeButton.vue'
-
-
-
 </script>
 
 <template>
@@ -13,7 +10,9 @@ import PokeButton from '@/components/PokeButton.vue'
     <div class="homeView-content">
       <h2 class="homeView-content_title">Welcome to Pokédex</h2>
       <p class="homeView-content_description">The digital encyclopedia created by Professor Oak is an invaluable tool to Trainers in the Pokémon world.</p>
-      <PokeButton>Get started</PokeButton>
+      <RouterLink :to="{ name: 'pokelist'}">
+        <PokeButton>Get started</PokeButton>
+      </RouterLink>
     </div>
   </div>
 </template>

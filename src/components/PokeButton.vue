@@ -3,14 +3,19 @@ defineProps({
   disable: {
     type: Boolean,
     default: false
+  },
+  icon: {
   }
 })
 </script>
 
 <template>
-  <button :class="{
+  <button class="button" :class="{
     disable
   }">
+    <span class="button-icon" v-if="icon">
+      <component :is="icon" width="20" height="20"/>
+    </span>
     <slot>
       Get started
     </slot>
@@ -18,7 +23,8 @@ defineProps({
 </template>
 
 <style scoped>
-button {
+.button {
+  min-width: 150px;
   padding: 0.6rem 1.1rem;
   border-radius: 60px;
   background-color: var(--color-primary);
@@ -27,13 +33,17 @@ button {
   color: #fff;
   cursor: pointer;
   transition: .3s;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
-button.disable {
+.button.disable {
   background-color: var(--color-disable);
 }
 
-button:active {
+.button:active {
   background-color: var(--color-pressed);
 }
+
 
 </style>
