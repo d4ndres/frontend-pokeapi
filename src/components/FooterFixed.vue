@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import IconList from './icons/IconList.vue';
 import IconStar from './icons/IconStar.vue';
-import PokeButton from './PokeButton.vue';
+import PokeLink from './PokeLink.vue';
 </script>
 
 <template>
   <div class="footer">
-    <PokeButton :disable="false" class="button" :icon="IconList">
-      All
-    </PokeButton>
-    <PokeButton :disable="true" class="button" :icon="IconStar">
-      Favorites
-    </PokeButton>
+    <div class="footer-content">
+      <PokeLink :to="{name: 'all'}" :disable="false" class="button" :icon="IconList">
+        All
+      </PokeLink>
+      <PokeLink :to="{name: 'favorites'}" :disable="true" class="button" :icon="IconStar">
+        Favorites
+      </PokeLink>
+    </div>
   </div>
 </template>
 
@@ -25,10 +27,15 @@ import PokeButton from './PokeButton.vue';
   padding: 18px 30px;
   background-color: #fff;
   box-shadow: 0px -5px 4px 0px rgba(0, 0, 0, 0.051);
+}
+.footer-content {
+  max-width: 570px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   gap: 20px;
 }
+
 .button {
   width: 100%;
 }

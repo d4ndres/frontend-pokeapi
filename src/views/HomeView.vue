@@ -10,9 +10,11 @@ import PokeButton from '@/components/PokeButton.vue'
     <div class="homeView-content">
       <h2 class="homeView-content_title">Welcome to Pokédex</h2>
       <p class="homeView-content_description">The digital encyclopedia created by Professor Oak is an invaluable tool to Trainers in the Pokémon world.</p>
-      <RouterLink :to="{ name: 'pokelist'}">
-        <PokeButton>Get started</PokeButton>
-      </RouterLink>
+      <div class="homeView-content-link">
+        <RouterLink :to="{ name: 'pokelist'}">
+          <PokeButton>Get started</PokeButton>
+        </RouterLink>
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +36,10 @@ import PokeButton from '@/components/PokeButton.vue'
 }
 .homeView-content_description {
   margin-bottom: 50px;
+}
+.homeView-content-link {
+  display: flex;
+  justify-content: center;
 }
 
 </style>

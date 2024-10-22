@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {getCurrentInstance, onMounted} from 'vue'
+import {getCurrentInstance, onMounted, ref} from 'vue'
 import IconLens from './icons/IconLens.vue'
 
 let $el
@@ -14,6 +14,22 @@ const focusToInput = () => {
   $input.focus()
 }
 
+const searchTimeout = ref<number | null>(null)
+
+const emit = defineEmits(['update:modelValue', 'input', 'toSearch'])
+const emitInput = (ev: Event) => {
+  const target = ev.target as HTMLInputElement
+  emit('update:modelValue', target.value )
+  emit('input', target.value )
+
+  if(searchTimeout.value) {
+    clearTimeout(searchTimeout.value)
+  }
+
+  searchTimeout.value = setTimeout(() => {
+    emit('toSearch', target.value)
+  }, 700)
+}
 
 </script>
 
@@ -22,7 +38,7 @@ const focusToInput = () => {
     <div class="pokeInput-icon">
       <IconLens />
     </div>
-    <input class="pokeInput-input" type="text" placeholder="Search">
+    <input class="pokeInput-input" type="text" placeholder="Search" @input="emitInput">
   </div>
 </template>
 

@@ -30,6 +30,7 @@ defineProps({
   align-items: center;
   padding-left: 20px;
   padding-right: 10px;
+  content-visibility: auto;
 }
 .item-name {
   width: 100%;

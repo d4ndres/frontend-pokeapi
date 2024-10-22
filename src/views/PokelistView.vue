@@ -1,37 +1,26 @@
 <script setup lang="ts">
 import FooterFixed from '@/components/FooterFixed.vue';
 import PokeInput from '@/components/PokeInput.vue';
-import PokelistItem from '@/components/PokelistItem.vue';
 
-import {ref} from 'vue'
-const pokemonList = ref([])
-import {res} from '@/mocks/restapi.js'
-res().then(({results}:any)=> {
-  pokemonList.value = results
-})
+import { storeToRefs } from 'pinia';
+import {usePokeStore} from '@/stores/pokeStore'
+const store = usePokeStore()
+const {setPokemonToSearch} = store
+const {pokemonToSearch} = storeToRefs(store)
+
 </script>
 
 <template>
   <div class="pokeView">
-    <PokeInput />
-    <ul class="pokelist">
-      <PokelistItem v-for="{name} in pokemonList" :key="name">{{ name }}</PokelistItem>
-    </ul>
+    <PokeInput @toSearch="setPokemonToSearch" :value="pokemonToSearch"/>
+    <RouterView />
   </div>
-  <FooterFixed/>
+  <FooterFixed />
 </template>
 
 <style scoped>
 .pokeView {
-  padding: 0 30px 90px;
+  padding: 0 30px 80px;
 }
 
-.pokelist {
-  margin-top: 40px;
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
 </style>

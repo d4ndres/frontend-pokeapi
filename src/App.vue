@@ -3,7 +3,14 @@ import HomeView from '@/Views/HomeView.vue'
 </script>
 
 <template>
-  <main>
+  <main class="main">
     <RouterView />
   </main>
 </template>
+
+<style scoped>
+.main {
+  max-width: 570px;
+  margin: 0 auto;
+}
+</style>
