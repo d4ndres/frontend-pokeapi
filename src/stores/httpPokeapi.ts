@@ -28,7 +28,8 @@ export const useHttpPokeapi = defineStore('httpPokeapi', () => {
       }
       const data = await response.json()
       return data.results.map(( info : { name: string }, index : number ) => ({
-        name: info.name, 
+        name: info.name,
+        favorite: false,
         id: String(index+1)
       }))
     } catch (error) {

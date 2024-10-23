@@ -1,23 +1,38 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import PokeFavorite from './PokeFavorite.vue';
+import PokeModal from './PokeModal.vue';
 
-defineProps({
-  favorite: {
-    type: Boolean,
-    default: false
-  }
-})
+interface pokemonTypeInList {
+  name: string,
+  favorite: boolean,
+  id: string
+}
+
+interface props {
+  pokemon: pokemonTypeInList
+}
+
+defineProps<props>()
+
+import {usePokeStore} from '@/stores/pokeStore'
+const store = usePokeStore()
+const {setFavorite} = store
+
+const showModal = ref(false)
+
 </script>
 
 <template>
+  <Teleport to="body">
+    <PokeModal v-model="showModal">{{pokemon.name}}</PokeModal>
+  </Teleport>
   <li class="item">
-    <div class="item-name">
-      <slot>
-        Pokemon name
-      </slot>
+    <div class="item-name" @click="showModal = true">
+      {{ pokemon.name }}
     </div>
     <div class="item-wrapper_icon">
-      <PokeFavorite :favorite="favorite"/>
+      <PokeFavorite @click="setFavorite(pokemon)" :favorite="pokemon.favorite"/>
     </div>
   </li>
 </template>

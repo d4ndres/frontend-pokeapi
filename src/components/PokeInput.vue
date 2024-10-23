@@ -26,9 +26,14 @@ const emitInput = (ev: Event) => {
     clearTimeout(searchTimeout.value)
   }
 
-  searchTimeout.value = setTimeout(() => {
+  if(target.value) {
+    searchTimeout.value = setTimeout(() => {
+      emit('toSearch', target.value)
+    }, 700)
+  } else {
     emit('toSearch', target.value)
-  }, 700)
+  }
+
 }
 
 </script>

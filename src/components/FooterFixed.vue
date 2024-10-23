@@ -1,18 +1,24 @@
 <script setup lang="ts">
 import IconList from './icons/IconList.vue';
 import IconStar from './icons/IconStar.vue';
-import PokeLink from './PokeLink.vue';
+import PokeButton from './PokeButton.vue';
+
+import { storeToRefs } from 'pinia';
+import { usePokeStore } from '@/stores/pokeStore'
+const store = usePokeStore()
+const { setOnlyFavorites } = store
+const { onlyFavorites } = storeToRefs(store)
 </script>
 
 <template>
   <div class="footer">
     <div class="footer-content">
-      <PokeLink :to="{name: 'all'}" :disable="false" class="button" :icon="IconList">
+      <PokeButton @click="setOnlyFavorites(false)" :disable="onlyFavorites" class="button" :icon="IconList">
         All
-      </PokeLink>
-      <PokeLink :to="{name: 'favorites'}" :disable="true" class="button" :icon="IconStar">
+      </PokeButton>
+      <PokeButton @click="setOnlyFavorites(true)" :disable="!onlyFavorites" class="button" :icon="IconStar">
         Favorites
-      </PokeLink>
+      </PokeButton>
     </div>
   </div>
 </template>

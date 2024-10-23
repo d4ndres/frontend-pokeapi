@@ -13,18 +13,14 @@ const router = createRouter({
       path: '/pokelist',
       name: 'pokelist',
       component: () => import('@/views/PokelistView.vue'),
-      redirect: to => '/pokelist/all',
       children: [
         {
-          path: 'all',
-          name: 'all',
-          component: () => import('@/views/PokelistView/AllView.vue')
-        },
-        {
-          path: 'favorites',
-          name: 'favorites',
-          component: () => import('@/views/PokelistView/FavoritesView.vue')
-        },
+          path: ':nameOrId',
+          name: 'pokeinfo',
+          component: () => import('@/views/PokelistView/PokeInfo.vue'),
+          props: route => ({ nameOrId: route.params.nameOrId })
+          
+        }
       ]
     }
   ]

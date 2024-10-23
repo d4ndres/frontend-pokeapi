@@ -25,7 +25,8 @@ defineProps({
 <style scoped>
 .button {
   min-width: 150px;
-  padding: 0.6rem 1.1rem;
+  padding: 11px 20px;
+  /* padding: 0.6rem 1.1rem; */
   border-radius: 60px;
   background-color: var(--color-primary);
   outline: none;
@@ -36,6 +37,7 @@ defineProps({
   display: flex;
   justify-content: center;
   gap: 10px;
+  font-weight: 700;
 }
 .button.disable {
   background-color: var(--color-disable);
