@@ -14,7 +14,18 @@ interface pokemonToShowType {
   id: number,
   weight: number,
   height: number,
-  types: Array<string>
+  types: Array<string>,
+  favorite: boolean
+}
+
+const initialPokemonToShow = {
+  image: 'string',
+  name: 'string',
+  id: 0,
+  weight: 0,
+  height: 0,
+  types: [],
+  favorite: false
 }
 
 export const usePokeStore = defineStore('pokeStore', () => {
@@ -25,7 +36,11 @@ export const usePokeStore = defineStore('pokeStore', () => {
   }
 
   // Funcionalidades colaterales del input
-  const pokemonToShow = ref<pokemonToShowType | null>()
+  const pokemonToShow = ref<pokemonToShowType>(initialPokemonToShow)
+  const pokemonToShowReset = () => {
+    pokemonToShow.value = initialPokemonToShow
+  }
+
   const searching = ref(false)
 
   const pokemonToSearch = ref<string>('')  
@@ -38,10 +53,10 @@ export const usePokeStore = defineStore('pokeStore', () => {
   }
 
   const searchPokemon = async ( nameOrId : string | number ) => {
-    
+    console.log(pokemonToShow)
     try {
       if( pokemonToShow.value?.name == nameOrId || pokemonToShow.value?.id == nameOrId ) return
-      
+
       const data = await httpPokeapi.getPokemonByNameOrId({ nameOrId })
       
       const len = pokemonList.value.length
@@ -76,7 +91,8 @@ export const usePokeStore = defineStore('pokeStore', () => {
           id: data.id,
           weight: data.weight,
           height: data.height,
-          types: data.types.map( (item: { type: { name: string } }) => item.type.name )
+          types: data.types.map( (item: { type: { name: string } }) => item.type.name ),
+          favorite: getFavoriteById(data.id)
         }
       }
     } catch (error) {
@@ -118,15 +134,32 @@ export const usePokeStore = defineStore('pokeStore', () => {
     })
   )
 
-  const setFavorite = ( pokemon : pokemonTypeInList ) => {
-    const index = pokemonList.value.findIndex( item => pokemon.id == item.id )
+  const setFavoriteById = ( id : string | number ) => {
+    const index = pokemonList.value.findIndex( item => id == item.id )
     const item = pokemonList.value[index]
     const updatedPokemon = {
       ...item,
       favorite: !item.favorite
     }
     pokemonList.value.splice(index, 1, updatedPokemon)
+
+
+    pokemonToShow.value = {
+      ...pokemonToShow?.value,
+      favorite: !pokemonToShow.value?.favorite
+    }
   }
+
+  const getFavoriteById = ( id : string | number ) => {
+
+    const index = pokemonList.value.findIndex( item => id == item.id )
+    return pokemonList.value[index].favorite
+  }
+
+  const setFavorite = ( pokemon : pokemonTypeInList ) => {
+    setFavoriteById(pokemon.id)
+  }
+
 
   return { 
     pokemonList, 
@@ -140,6 +173,8 @@ export const usePokeStore = defineStore('pokeStore', () => {
     setOnlyFavorites,
     searching,
     searchPokemon,
-    pokemonToShow
+    pokemonToShow,
+    setFavoriteById,
+    pokemonToShowReset
   }
 })

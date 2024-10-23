@@ -52,6 +52,9 @@ const emitInput = (ev: Event) => {
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.04);
   background-color: #fff;
   display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 .pokeInput-icon {
   display: flex;

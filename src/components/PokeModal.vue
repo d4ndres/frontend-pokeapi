@@ -13,8 +13,8 @@ const close = () => {
 <template>
   <div class="overflow" v-show="modelValue || open">
     <div @mousedown="close" :class="{'open': modelValue || open}" class="curtain">
-      <div class="overflow-body">
-        <slot @mousedown.stop :close="close" />
+      <div @mousedown.stop  class="overflow-body">
+        <slot :close="close" />
       </div>
     </div>
   </div>
@@ -53,8 +53,6 @@ const close = () => {
 }
 
 .curtain.open .overflow-body {
-  width: 100vw;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

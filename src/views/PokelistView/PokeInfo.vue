@@ -9,7 +9,7 @@ import PokeModal from '@/components/PokeModal.vue';
 import PokeFavorite from '@/components/PokeFavorite.vue';
 
 const store = usePokeStore()
-const { searchPokemon } = store
+const { searchPokemon, setFavoriteById, pokemonToShowReset } = store
 const { pokemonToShow } = storeToRefs(store)
 
 const props = defineProps(['nameOrId'])
@@ -23,7 +23,7 @@ const copyToClipBoard = () => {
   if (!pokemonToShow.value || !pokemonToShow) return
 
   const stats = Object.entries(pokemonToShow.value).filter(([key]) => key !== 'image').map(([key, value]) => {
-    if (key === 'types') {
+    if (key === 'types' || key === 'favorite') {
       return `${key}: [${Object.values(value)}]`
     } else {
       return `${key}: ${value}`
@@ -35,6 +35,7 @@ const copyToClipBoard = () => {
 
 const router = useRouter()
 const close = () => {
+  pokemonToShowReset()
   router.push({ name: 'pokelist' })
 }
 
@@ -66,7 +67,7 @@ const open = true
         </ul>
         <div class="pokeinfo-actions">
           <PokeButton @click="copyToClipBoard">Share to my friends</PokeButton>
-          <PokeFavorite @click="() => null" :favorite="true" />
+          <PokeFavorite @click="setFavoriteById(pokemonToShow?.id || 1)" :favorite="pokemonToShow?.favorite" />
         </div>
       </div>
     </div>
