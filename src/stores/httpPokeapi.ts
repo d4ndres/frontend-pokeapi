@@ -1,9 +1,11 @@
 import { defineStore} from 'pinia'
 const URL = 'https://pokeapi.co/api/v2/pokemon'
 import {useHttpClient} from '@/stores/httpClient'
-const http = useHttpClient()
+
 
 export const useHttpPokeapi = defineStore('httpPokeapi', () => {
+  const http = useHttpClient()
+
   const getPokemonByNameOrId = async ({nameOrId}:{ nameOrId: string | number}) => {
     try {
       const response = await http.get({ url: `${URL}/${nameOrId}` })

@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia'
 import { ref, computed } from 'vue'
 import {useHttpPokeapi} from './httpPokeapi'
-const httpPokeapi = useHttpPokeapi()
+
 
 interface pokemonTypeInList {
   name: string,
@@ -29,6 +29,8 @@ const initialPokemonToShow = {
 }
 
 export const usePokeStore = defineStore('pokeStore', () => {
+  const httpPokeapi = useHttpPokeapi()
+
   // Funcionalidades relacionadas a los favoritos
   const onlyFavorites = ref(false)
   const setOnlyFavorites = ( value : boolean ) => {
