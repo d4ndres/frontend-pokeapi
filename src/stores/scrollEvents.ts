@@ -1,5 +1,8 @@
 import {defineStore} from 'pinia'
 import { ref } from 'vue';
+import {usePokeStore} from '@/stores/pokeStore'
+const pokeStore = usePokeStore()
+const {addFromToEventScroll} = pokeStore
 
 export const useScrollEvents = defineStore('scrollEvents', () => {
 
@@ -18,8 +21,25 @@ export const useScrollEvents = defineStore('scrollEvents', () => {
     lastScrollY.value = currentScrollY;
   };
 
+  const el = ref<HTMLElement | null>(null)
+  const setElInfiniteScroll = (element : HTMLElement) => {
+    el.value = element
+  }
+  const handleInfiniteScroll = () => {
+    if( !el.value ) return
+  
+    const element = el.value
+    console.log(element?.getBoundingClientRect().bottom, window.innerHeight)
+  
+    if( element?.getBoundingClientRect().bottom < window.innerHeight ) {
+      addFromToEventScroll()
+    }
+  }
+
   return {
     scrollDirection,
-    updateScroll
+    updateScroll,
+    handleInfiniteScroll,
+    setElInfiniteScroll
   }
 })

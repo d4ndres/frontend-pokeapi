@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, ref, onUnmounted } from 'vue';
 
 import FooterFixed from '@/components/FooterFixed.vue';
 import PokeInput from '@/components/PokeInput.vue';
@@ -20,15 +20,30 @@ interface pokemonTypeInList {
   id: string
 }
 
-onMounted(() => {
-  initPokemonList()
-})
-
 
 const router = useRouter()
 const goTo = (pokemon: pokemonTypeInList) => {
   router.push({ name: 'pokeinfo', params: { nameOrId: pokemon.name } })
 }
+
+
+// Eventos personalizados del scroll
+const el = ref<HTMLElement | null>(null)
+import {useScrollEvents} from '@/stores/scrollEvents'
+const scrollEventsStore = useScrollEvents()
+const {setElInfiniteScroll, updateScroll, handleInfiniteScroll} = scrollEventsStore 
+
+onMounted(() => {
+  initPokemonList()
+  window.addEventListener('scroll', updateScroll);
+  window.addEventListener('scroll', handleInfiniteScroll);
+  setElInfiniteScroll(el.value as HTMLElement )
+});
+
+onUnmounted(() => {
+  window.addEventListener('scroll', updateScroll);
+  window.removeEventListener('scroll', handleInfiniteScroll);
+});
 
 
 
@@ -37,20 +52,22 @@ const goTo = (pokemon: pokemonTypeInList) => {
 <template>
   <RouterView />
   <div class="pokeView">
-    
+
     <PokeInput @toSearch="setPokemonToSearch" :value="pokemonToSearch" />
-    
+
     <GoBackHome v-show="!searching && !pokemonListFiltered.length && pokemonToSearch" />
-    <TransitionGroup name="list" tag="ul" class="pokelist">
-      <li class="item" v-for="pokemon in pokemonListFiltered" :key="pokemon.id">
-        <div class="item-name" @click="goTo(pokemon)">
-          {{ pokemon.name }}
-        </div>
-        <div class="item-wrapper_icon">
-          <PokeFavorite @click="setFavorite(pokemon)" :favorite="pokemon.favorite" />
-        </div>
-      </li>
-    </TransitionGroup>
+    <div ref="el">
+      <TransitionGroup name="list" tag="ul" class="pokelist">
+        <li class="item" v-for="pokemon in pokemonListFiltered" :key="pokemon.id">
+          <div class="item-name" @click="goTo(pokemon)">
+            {{ pokemon.name }}
+          </div>
+          <div class="item-wrapper_icon">
+            <PokeFavorite @click="setFavorite(pokemon)" :favorite="pokemon.favorite" />
+          </div>
+        </li>
+      </TransitionGroup>
+    </div>
     <FooterFixed />
   </div>
 </template>
