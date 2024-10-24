@@ -26,7 +26,7 @@ const { onlyFavorites } = storeToRefs(store)
 <style scoped>
 .footer {
   height: 80px;
-  width: 100vw;
+  width: 100%;
   position: fixed;
   bottom: 0;
   left: 0;

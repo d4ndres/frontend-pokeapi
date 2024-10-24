@@ -58,7 +58,7 @@ onUnmounted(() => {
       </TransitionGroup>
     </div>
     <Transition name="slide-footer">
-      <FooterFixed v-show="!(!searching && !pokemonListFiltered.length && pokemonToSearch)"/>
+      <FooterFixed v-show="!(searching && !pokemonListFiltered.length) && !(!searching && !pokemonListFiltered.length && pokemonToSearch)"/>
     </Transition>
   </div>
 </template>
