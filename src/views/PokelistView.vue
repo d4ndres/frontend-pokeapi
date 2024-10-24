@@ -40,11 +40,9 @@ onUnmounted(() => {
 
     <PokeInput @toSearch="setPokemonToSearch" :value="pokemonToSearch" />
 
-    <TransitionGroup name="fade" tag="template" class="pokelist">
-      <PokeLoader v-show="searching && !pokemonListFiltered.length"></PokeLoader>
-      <GoBackHome v-show="!searching && !pokemonListFiltered.length && pokemonToSearch" />
-    </TransitionGroup>
-
+    <PokeLoader v-show="searching && !pokemonListFiltered.length"></PokeLoader>
+    <GoBackHome v-show="!searching && !pokemonListFiltered.length && pokemonToSearch" />
+    
     <div ref="el">
       <TransitionGroup name="list" tag="ul" class="pokelist">
         <li class="item" v-for="pokemon in pokemonListFiltered" :key="pokemon.id">
@@ -113,19 +111,6 @@ onUnmounted(() => {
   transform: translateX(30px);
 }
 
-/* Animaciones de transición de componentes */
-.fade-enter-active, .fade-leave-active {
-  transition: transform 0.2s ease;
-  opacity: 1;
-}
-
-.fade-enter-from {
-  opacity: 0;
-}
-
-.fade-leave-to {
-  opacity: 0;
-}
 
 /* Animación del footer */
 .slide-footer-enter-active, .slide-footer-leave-active {

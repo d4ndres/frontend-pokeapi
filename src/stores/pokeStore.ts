@@ -67,13 +67,16 @@ export const usePokeStore = defineStore('pokeStore', () => {
         pokemonListPush([{
           name: data.name,
           favorite: false,
-          id: data.id
+          id: String(data.id)
         }])
 
         
         if( data.id - 1 > len) {
-          getPokemonByRangeMapped({start: len + 1, end: data.id - 1})
+          getPokemonByRangeMappedSolutionBug({start: len + 1, end: data.id - 1})
           .then( result => {
+            console.log(pokemonList.value)
+            console.log(result)
+
             pokemonList.value = [
               ...pokemonList.value.slice(0, len),
               ...result,
@@ -107,6 +110,17 @@ export const usePokeStore = defineStore('pokeStore', () => {
   
   // Funcionalidades de la lista a mostrar
   const pokemonList = ref<pokemonTypeInList[]>([])
+
+  const getPokemonByRangeMappedSolutionBug = async ( { start, end} : { start: number, end: number })  => {
+    const data =  await httpPokeapi.getPokemonsByRange({start, end})
+    const lengthOfList = pokemonList.value.length
+
+    return data.map(( info : { name: string }, index : number ) => ({
+      name: info.name,
+      favorite: false,
+      id: String( lengthOfList + index )
+    }))
+  }
 
   const getPokemonByRangeMapped = async ( { start, end} : { start: number, end: number })  => {
     const data =  await httpPokeapi.getPokemonsByRange({start, end})
