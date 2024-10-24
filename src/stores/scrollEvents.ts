@@ -4,10 +4,12 @@ import {usePokeStore} from '@/stores/pokeStore'
 const pokeStore = usePokeStore()
 const {addFromToEventScroll} = pokeStore
 
+type direction = 'down' | 'up'
+
 export const useScrollEvents = defineStore('scrollEvents', () => {
 
   const lastScrollY = ref(window.scrollY);
-  const scrollDirection = ref<string | null>(null);
+  const scrollDirection = ref<direction | null>(null);
   
   const updateScroll = () => {
     const currentScrollY = window.scrollY;
@@ -29,8 +31,7 @@ export const useScrollEvents = defineStore('scrollEvents', () => {
     if( !el.value ) return
   
     const element = el.value
-    console.log(element?.getBoundingClientRect().bottom, window.innerHeight)
-  
+    
     if( element?.getBoundingClientRect().bottom < window.innerHeight ) {
       addFromToEventScroll()
     }

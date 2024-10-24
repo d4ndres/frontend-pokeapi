@@ -8,23 +8,9 @@ import PokeFavorite from '@/components/PokeFavorite.vue';
 import { storeToRefs } from 'pinia';
 import { usePokeStore } from '@/stores/pokeStore'
 import GoBackHome from '@/components/GoBackHome.vue';
-import { useRouter } from 'vue-router';
 const store = usePokeStore()
 const { setPokemonToSearch, initPokemonList, setFavorite } = store
 const { pokemonToSearch, pokemonListFiltered, searching } = storeToRefs(store)
-
-
-interface pokemonTypeInList {
-  name: string,
-  favorite: boolean,
-  id: string
-}
-
-
-const router = useRouter()
-const goTo = (pokemon: pokemonTypeInList) => {
-  router.push({ name: 'pokeinfo', params: { nameOrId: pokemon.name } })
-}
 
 
 // Eventos personalizados del scroll
@@ -45,8 +31,6 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleInfiniteScroll);
 });
 
-
-
 </script>
 
 <template>
@@ -59,9 +43,9 @@ onUnmounted(() => {
     <div ref="el">
       <TransitionGroup name="list" tag="ul" class="pokelist">
         <li class="item" v-for="pokemon in pokemonListFiltered" :key="pokemon.id">
-          <div class="item-name" @click="goTo(pokemon)">
+          <RouterLink class="item-name" :to="{name: 'pokeinfo', params: { nameOrId: pokemon.name }}">
             {{ pokemon.name }}
-          </div>
+          </RouterLink>
           <div class="item-wrapper_icon">
             <PokeFavorite @click="setFavorite(pokemon)" :favorite="pokemon.favorite" />
           </div>

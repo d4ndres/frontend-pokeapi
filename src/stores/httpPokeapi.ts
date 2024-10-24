@@ -27,11 +27,7 @@ export const useHttpPokeapi = defineStore('httpPokeapi', () => {
         throw new Error('Error al obtener Pokémon por rango')
       }
       const data = await response.json()
-      return data.results.map(( info : { name: string }, index : number ) => ({
-        name: info.name,
-        favorite: false,
-        id: String(index+1)
-      }))
+      return data.results
     } catch (error) {
       console.error('Error en getPokemonsByRange:', error)
       throw error

@@ -53,7 +53,7 @@ export const usePokeStore = defineStore('pokeStore', () => {
   }
 
   const searchPokemon = async ( nameOrId : string | number ) => {
-    console.log(pokemonToShow)
+
     try {
       if( pokemonToShow.value?.name == nameOrId || pokemonToShow.value?.id == nameOrId ) return
 
@@ -70,7 +70,7 @@ export const usePokeStore = defineStore('pokeStore', () => {
 
         
         if( data.id - 1 > len) {
-          httpPokeapi.getPokemonsByRange({start: len + 1, end: data.id - 1})
+          getPokemonByRangeMapped({start: len + 1, end: data.id - 1})
           .then( result => {
             pokemonList.value = [
               ...pokemonList.value.slice(0, len),
@@ -104,7 +104,19 @@ export const usePokeStore = defineStore('pokeStore', () => {
   
   
   // Funcionalidades de la lista a mostrar
-  const pokemonList = ref<pokemonTypeInList[]>([]) 
+  const pokemonList = ref<pokemonTypeInList[]>([])
+
+  const getPokemonByRangeMapped = async ( { start, end} : { start: number, end: number })  => {
+    const data =  await httpPokeapi.getPokemonsByRange({start, end})
+    console.log(data)
+    const lengthOfList = pokemonList.value.length
+
+    return data.map(( info : { name: string }, index : number ) => ({
+      name: info.name,
+      favorite: false,
+      id: String( lengthOfList + index + 1 )
+    }))
+  }
 
   const pokemonListPush = ( data: pokemonTypeInList[] ) => {
     pokemonList.value = [ ...pokemonList.value, ...data]
@@ -112,14 +124,21 @@ export const usePokeStore = defineStore('pokeStore', () => {
 
   const initPokemonList = async () => {
     if(!pokemonList.value.length) {
-      pokemonList.value = await httpPokeapi.getPokemonsByRange({start: 1, end: 30})
+      pokemonList.value = await getPokemonByRangeMapped({start: 1, end: 30})
 
     }
   }
+
+  const isAutoSearch = ref(false)
   const addFromToEventScroll = async () => {
-    const length = pokemonList.value.length
-    const data = await httpPokeapi.getPokemonsByRange({start: length + 1, end: length+30})
-    pokemonListPush(data)
+
+    if(!isAutoSearch.value) {
+      const length = pokemonList.value.length
+      isAutoSearch.value = true
+      const data = await getPokemonByRangeMapped({start: length + 1, end: length+30})
+      isAutoSearch.value = false
+      pokemonListPush(data)
+    }
   }
 
   const pokemonListFiltered = computed(() => 
