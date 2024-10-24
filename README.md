@@ -1,20 +1,29 @@
 # frontend-pokeapi2
 
-This template should help get you started developing with Vue 3 in Vite.
+Este proyecto consiste en una poke api pensada para manejar listas con gran cantidad de data. 
 
-## Recommended IDE Setup
+## Técnicas
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+He preparado una animación cautivadora para el loader, ¡espero que la disfrutes!
 
-## Type Support for `.vue` Imports in TS
+- Para evitar sobrecargar el DOM con tantos elementos en la lista, implementé un infinite scroll. 
+- También añadí una búsqueda optimizada con debouncing para que encuentres lo que necesitas sin esfuerzo. 
+- Para la búsqueda singular prepare una solicitud optimista pensando en que el usuario entrara a la nueva vista ya con los datos descargados.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
 
-## Customize configuration
+## tecnologías. 
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- Vue por excelencia es el corazón del proyecto. 
+- Vue router nos permite implementar una SPA no es obligatoria pero considero que es un estándar en la industria y por ello la he implementado.
+- Pinia, en mi opinión, es la mejor opción para gestión de estado. Su arquitectura flexible permite crear stores modulares que pueden ser interconectados. Como se realizó en este proyecto.
+- TypeScript es esencial en proyectos de gran escala. Facilita el mantenimiento y escalabilidad del código, ofreciendo eficiencia a largo plazo al evitar errores en tiempo de ejecución y mejorar el autocompletado, al limitar las posibles inconsistencias.
+- vitest y su ecosistema. Muy similar a jest y con la misma sensibles para implementar test.  
 
-## Project Setup
+
+
+## Comandos
+
+### Project Setup
 
 ```sh
 npm install
@@ -26,14 +35,8 @@ npm install
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### Test
 
 ```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+npm run test:unit
 ```
