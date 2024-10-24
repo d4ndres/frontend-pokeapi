@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import PokeLink from './PokeLink.vue';
+import PokeButton from './PokeButton.vue';
+import { usePokeStore } from '@/stores/pokeStore'
+const store = usePokeStore()
+const { setPokemonToSearch } = store
 </script>
 
 <template>
   <div class="goBackHome">
     <h2 class="goBackHome-title">Uh-oh!</h2>
     <p class="goBackHome-description">You look lost on your journey!</p>
-    <PokeLink class="goBackHome-link" :to="{name: 'pokelist'}">Go back home</PokeLink>
+    <PokeButton class="goBackHome-link" @click="setPokemonToSearch('')">Go back home</PokeButton>
   </div>
 </template>
 

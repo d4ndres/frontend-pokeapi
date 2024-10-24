@@ -16,6 +16,7 @@ const { pokemonToSearch, pokemonListFiltered, searching } = storeToRefs(store)
 // Eventos personalizados del scroll
 const el = ref<HTMLElement | null>(null)
 import {useScrollEvents} from '@/stores/scrollEvents'
+import PokeLoader from '@/components/PokeLoader.vue';
 const scrollEventsStore = useScrollEvents()
 const {setElInfiniteScroll, updateScroll, handleInfiniteScroll} = scrollEventsStore 
 
@@ -39,7 +40,11 @@ onUnmounted(() => {
 
     <PokeInput @toSearch="setPokemonToSearch" :value="pokemonToSearch" />
 
-    <GoBackHome v-show="!searching && !pokemonListFiltered.length && pokemonToSearch" />
+    <TransitionGroup name="fade" tag="template" class="pokelist">
+      <PokeLoader v-show="searching && !pokemonListFiltered.length"></PokeLoader>
+      <GoBackHome v-show="!searching && !pokemonListFiltered.length && pokemonToSearch" />
+    </TransitionGroup>
+
     <div ref="el">
       <TransitionGroup name="list" tag="ul" class="pokelist">
         <li class="item" v-for="pokemon in pokemonListFiltered" :key="pokemon.id">
@@ -52,7 +57,9 @@ onUnmounted(() => {
         </li>
       </TransitionGroup>
     </div>
-    <FooterFixed />
+    <Transition name="slide-footer">
+      <FooterFixed v-show="!(!searching && !pokemonListFiltered.length && pokemonToSearch)"/>
+    </Transition>
   </div>
 </template>
 
@@ -93,6 +100,8 @@ onUnmounted(() => {
   font-weight: 500;
 }
 
+
+/* Animaciones vue elementos de lista */
 .list-enter-active,
 .list-leave-active {
   transition: all .3s ease;
@@ -102,5 +111,32 @@ onUnmounted(() => {
 .list-leave-to {
   opacity: 0;
   transform: translateX(30px);
+}
+
+/* Animaciones de transición de componentes */
+.fade-enter-active, .fade-leave-active {
+  transition: transform 0.2s ease;
+  opacity: 1;
+}
+
+.fade-enter-from {
+  opacity: 0;
+}
+
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Animación del footer */
+.slide-footer-enter-active, .slide-footer-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.slide-footer-enter-from {
+  transform: translateY(100%);
+}
+
+.slide-footer-leave-to {
+  transform: translateY(100%);
 }
 </style>

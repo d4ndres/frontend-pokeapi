@@ -42,6 +42,7 @@ const emitInput = (ev: Event) => {
   }
 }
 
+defineProps(['value', 'modelValue'])
 
 
 </script>
@@ -52,7 +53,9 @@ const emitInput = (ev: Event) => {
       <div class="pokeInput-icon">
         <IconLens />
       </div>
-      <input class="pokeInput-input" type="text" placeholder="Search" @input="emitInput" 
+      <input class="pokeInput-input" type="text" placeholder="Search" 
+      :value="modelValue || value"
+      @input="emitInput" 
       @blur="focused = false"
       @focused="focused = true">
     </div>

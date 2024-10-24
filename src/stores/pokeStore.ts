@@ -97,7 +97,7 @@ export const usePokeStore = defineStore('pokeStore', () => {
       }
     } catch (error) {
       // to Logger
-      console.log(error)
+      console.error('Error en getPokemonByNameOrId:', error)
     }
     
   }
@@ -108,7 +108,6 @@ export const usePokeStore = defineStore('pokeStore', () => {
 
   const getPokemonByRangeMapped = async ( { start, end} : { start: number, end: number })  => {
     const data =  await httpPokeapi.getPokemonsByRange({start, end})
-    console.log(data)
     const lengthOfList = pokemonList.value.length
 
     return data.map(( info : { name: string }, index : number ) => ({

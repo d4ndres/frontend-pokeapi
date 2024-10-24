@@ -12,7 +12,7 @@ export const useHttpPokeapi = defineStore('httpPokeapi', () => {
       }
       return await response.json()
     } catch (error) {
-      console.error('Error en getPokemonByNameOrId:', error)
+      // console.error('Error en getPokemonByNameOrId:', error)
       throw error
     }
   }
@@ -29,7 +29,7 @@ export const useHttpPokeapi = defineStore('httpPokeapi', () => {
       const data = await response.json()
       return data.results
     } catch (error) {
-      console.error('Error en getPokemonsByRange:', error)
+      // console.error('Error en getPokemonsByRange:', error)
       throw error
     }
   }
