@@ -22,8 +22,8 @@ onMounted(async () => {
 const copyToClipBoard = () => {
   if (!pokemonToShow.value || !pokemonToShow) return
 
-  const stats = Object.entries(pokemonToShow.value).filter(([key]) => key !== 'image').map(([key, value]) => {
-    if (key === 'types' || key === 'favorite') {
+  const stats = Object.entries(pokemonToShow.value).filter(([key]) => key !== 'image' && key !== 'favorite').map(([key, value]) => {
+    if (key === 'types' ) {
       return `${key}: [${Object.values(value)}]`
     } else {
       return `${key}: ${value}`

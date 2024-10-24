@@ -21,10 +21,19 @@ import PokeButton from '@/components/PokeButton.vue'
 
 <style scoped>
 .homeView {
+  margin-top: 35px;
   display: flex;
   flex-direction: column;
   text-align: center
 }
+
+/* En mi pantalla se mira mucho mejor sin el margen */
+@media (max-height: 700px) {
+  .homeView {
+    margin-top: 0px;
+  }
+}
+
 .homeView-image {
   margin: 35px 25px;
 }

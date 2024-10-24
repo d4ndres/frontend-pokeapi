@@ -27,7 +27,7 @@ onMounted(() => {
 
 const router = useRouter()
 const goTo = (pokemon: pokemonTypeInList) => {
-  router.push({ name: 'pokeinfo', params: { nameOrId: pokemon.name }})
+  router.push({ name: 'pokeinfo', params: { nameOrId: pokemon.name } })
 }
 
 </script>
@@ -35,7 +35,9 @@ const goTo = (pokemon: pokemonTypeInList) => {
 <template>
   <RouterView />
   <div class="pokeView">
-    <PokeInput @toSearch="setPokemonToSearch" :value="pokemonToSearch" />
+    <div class="pokeView-wrapper_input">
+      <PokeInput @toSearch="setPokemonToSearch" :value="pokemonToSearch" />
+    </div>
     <!-- {{ searching }} -->
     <GoBackHome v-show="!searching && !pokemonListFiltered.length && pokemonToSearch" />
     <TransitionGroup name="list" tag="ul" class="pokelist">
@@ -54,11 +56,26 @@ const goTo = (pokemon: pokemonTypeInList) => {
 
 <style scoped>
 .pokeView {
-  padding: 0 30px 80px;
+  padding: 0 30px 100px;
 }
 
+/* podría ser 768 en ves de 630 */
+@media (min-width: 630px) {
+  .pokeView {
+    padding: 0 0 100px;
+  }
+}
+
+.pokeView-wrapper_input {
+  padding: 35px 0 40px ;
+  background-color: var(--color-bg);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+
 .pokelist {
-  margin-top: 40px;
   list-style: none;
   padding: 0;
   display: flex;

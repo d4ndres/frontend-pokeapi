@@ -33,15 +33,11 @@ input {
 
 main {
   max-width: 600px;
-  padding: 35px 0;
 }
+
+
 
 h2 {
   font-size: 26px;
 }
 
-body {
-  margin: 0;
-  min-width: 100vw;
-  min-height: 100vh;
-}
