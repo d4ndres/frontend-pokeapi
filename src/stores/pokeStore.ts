@@ -74,9 +74,6 @@ export const usePokeStore = defineStore('pokeStore', () => {
         if( data.id - 1 > len) {
           getPokemonByRangeMappedSolutionBug({start: len + 1, end: data.id - 1})
           .then( result => {
-            console.log(pokemonList.value)
-            console.log(result)
-
             pokemonList.value = [
               ...pokemonList.value.slice(0, len),
               ...result,
