@@ -30,15 +30,16 @@ const goTo = (pokemon: pokemonTypeInList) => {
   router.push({ name: 'pokeinfo', params: { nameOrId: pokemon.name } })
 }
 
+
+
 </script>
 
 <template>
   <RouterView />
   <div class="pokeView">
-    <div class="pokeView-wrapper_input">
-      <PokeInput @toSearch="setPokemonToSearch" :value="pokemonToSearch" />
-    </div>
-    <!-- {{ searching }} -->
+    
+    <PokeInput @toSearch="setPokemonToSearch" :value="pokemonToSearch" />
+    
     <GoBackHome v-show="!searching && !pokemonListFiltered.length && pokemonToSearch" />
     <TransitionGroup name="list" tag="ul" class="pokelist">
       <li class="item" v-for="pokemon in pokemonListFiltered" :key="pokemon.id">
@@ -66,13 +67,6 @@ const goTo = (pokemon: pokemonTypeInList) => {
   }
 }
 
-.pokeView-wrapper_input {
-  padding: 35px 0 40px ;
-  background-color: var(--color-bg);
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
 
 
 .pokelist {

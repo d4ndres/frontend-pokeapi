@@ -1,5 +1,18 @@
 <script setup lang="ts">
-import HomeView from '@/Views/HomeView.vue'
+
+import {onMounted, onUnmounted} from 'vue'
+import {useScrollEvents} from '@/stores/scrollEvents'
+const scrollEventsStore = useScrollEvents()
+const {updateScroll} = scrollEventsStore 
+
+
+onMounted(() => {
+  window.addEventListener('scroll', updateScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', updateScroll);
+});
 </script>
 
 <template>
